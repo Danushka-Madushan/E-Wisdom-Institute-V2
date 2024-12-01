@@ -1,8 +1,8 @@
 import { createRoot } from 'react-dom/client'
 import { NextUIProvider } from '@nextui-org/react'
-import App from './App.tsx'
-import './index.css'
 import { BrowserRouter } from 'react-router'
+import App from './App.tsx'
+import './assets/tailwind.css'
 
 createRoot(document.getElementById('root')!).render(
   <NextUIProvider>
