@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button, Dropdown, DropdownTrigger, DropdownItem, DropdownMenu } from "@nextui-org/react";
 import SigmaIcon from '../icons/SigmaIcon';
 import { useNavigate, NavLink } from 'react-router';
 
@@ -34,7 +34,7 @@ const NavBar = () => {
   const Navigate = useNavigate()
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen} isBordered>
+    <Navbar isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen} isBordered>
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -46,6 +46,28 @@ const NavBar = () => {
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-x-8" justify="center">
+        <Dropdown>
+          <NavbarItem>
+          <DropdownTrigger>
+              <Button
+                disableRipple
+                className="p-0 text-base bg-transparent data-[hover=true]:bg-transparent"
+                radius="sm"
+                variant="light"
+              >
+                Features
+              </Button>
+            </DropdownTrigger>
+          </NavbarItem>
+          <DropdownMenu>
+            <DropdownItem
+                key="autoscaling"
+                description="ACME scales apps to meet user demand, automagically, based on load."
+              >
+                Autoscaling
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
         {
           NavItems.map(({ text, link }, index) => {
             if (index === NavItems.length - 1) { return };
@@ -85,7 +107,10 @@ const NavBar = () => {
                 index === NavItems.length - 1 ? "danger" : "foreground"
               }
               className="w-full cursor-pointer"
-              onClick={() => {Navigate(link);setIsMenuOpen(false)}}
+              onClick={() => {
+                Navigate(link);
+                setIsMenuOpen((prev) => !prev)
+              }}
               size="lg"
             >
               {text}
