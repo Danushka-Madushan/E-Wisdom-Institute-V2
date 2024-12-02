@@ -1,11 +1,11 @@
 import { Avatar, Card, CardBody, CardFooter, CardHeader, Chip, Divider } from "@nextui-org/react";
-import { IconName } from 'GlobalTypes';
-import BiochemistryIcons from '../icons/BiochemistryIcons';
+import { BiochemistryIconName } from 'GlobalTypes';
+import BiochemistryIcons from '../icons/collections/BiochemistryIcons';
 
 const Library = () => {
   const list: {
     title: string,
-    icon: IconName,
+    icon: BiochemistryIconName,
     stream: string,
     tutor: string
   }[] = [
