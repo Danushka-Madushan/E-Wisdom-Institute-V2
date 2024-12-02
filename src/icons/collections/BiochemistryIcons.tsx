@@ -1,6 +1,6 @@
-import { IconName } from 'GlobalTypes'
+import { BiochemistryIconName } from 'GlobalTypes'
 
-const BiochemistryIcons = ({ iconName, size, uid }: { iconName: IconName, size: number, uid: string }) => {
+const BiochemistryIcons = ({ iconName, size, uid }: { iconName: BiochemistryIconName, size: number, uid: string }) => {
     switch (iconName) {
         case 'Bacteria': {
             return (
