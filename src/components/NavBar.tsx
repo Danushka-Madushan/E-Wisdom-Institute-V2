@@ -2,32 +2,86 @@ import { useState } from "react";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button, Dropdown, DropdownTrigger, DropdownItem, DropdownMenu } from "@nextui-org/react";
 import SigmaIcon from '../icons/SigmaIcon';
 import { useNavigate, NavLink } from 'react-router';
+import { ChevronDown } from 'lucide-react';
 
-const NavItems:{
+const NavItems: {
   text: string,
   link: `/${string}`
+  isDrpDown: boolean,
+  DrpContent: {
+    keyName: string,
+    desc: string,
+    link: `/${string}`
+  }[]
 }[] = [
-  {
-    text: "Home",
-    link: '/'
-  },
-  {
-    text: "E-Library",
-    link: '/e-library'
-  },
-  {
-    text: "News",
-    link: '/news'
-  },
-  {
-    text: "Account",
-    link: '/account'
-  },
-  {
-    text: "Log Out",
-    link: '/'
-  }
-]
+    {
+      text: "Home",
+      link: '/',
+      isDrpDown: false,
+      DrpContent: []
+    },
+    {
+      text: "Classes",
+      link: '/',
+      isDrpDown: true,
+      DrpContent: [
+        {
+          keyName: 'Grade 11 (AL)',
+          desc: 'Advanced Level Past Papers & Edu Materials',
+          link: '/grade-11-edu-materials'
+        },
+        {
+          keyName: 'Grade 10 (OL)',
+          desc: 'Ordinary Level Past Papers & Edu Materials',
+          link: '/grade-10-edu-materials'
+        },
+        {
+          keyName: 'Grade 09',
+          desc: 'Past Papers & Edu Materials',
+          link: '/grade-09-edu-materials'
+        },
+        {
+          keyName: 'Grade 08',
+          desc: 'Past Papers & Edu Materials',
+          link: '/grade-08-edu-materials'
+        },
+        {
+          keyName: 'Grade 07',
+          desc: 'Past Papers & Edu Materials',
+          link: '/grade-07-edu-materials'
+        },
+        {
+          keyName: 'Grade 06',
+          desc: 'Past Papers & Edu Materials',
+          link: '/grade-06-edu-materials'
+        }
+      ]
+    },
+    {
+      text: "E-Library",
+      link: '/e-library',
+      isDrpDown: false,
+      DrpContent: []
+    },
+    {
+      text: "News",
+      link: '/news',
+      isDrpDown: false,
+      DrpContent: []
+    },
+    {
+      text: "Account",
+      link: '/account',
+      isDrpDown: false,
+      DrpContent: []
+    },
+    {
+      text: "Log Out",
+      link: '/',
+      isDrpDown: false,
+      DrpContent: []
+    }
+  ]
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -46,44 +100,57 @@ const NavBar = () => {
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-x-8" justify="center">
-        <Dropdown>
-          <NavbarItem>
-          <DropdownTrigger>
-              <Button
-                disableRipple
-                className="p-0 text-base bg-transparent data-[hover=true]:bg-transparent"
-                radius="sm"
-                variant="light"
-              >
-                Features
-              </Button>
-            </DropdownTrigger>
-          </NavbarItem>
-          <DropdownMenu>
-            <DropdownItem
-                key="autoscaling"
-                description="ACME scales apps to meet user demand, automagically, based on load."
-              >
-                Autoscaling
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
         {
-          NavItems.map(({ text, link }, index) => {
+          NavItems.map(({ text, link, isDrpDown, DrpContent }, index) => {
             if (index === NavItems.length - 1) { return };
-            return (
-              <NavbarItem key={link}>
-                <NavLink to={link} color="foreground"
-                className={({ isActive }) =>
-                  isActive
-                ? "text-base cursor-pointer text-primary"
-                : "text-base cursor-pointer"
-                }
-                >
-                  {text}
-                </NavLink>
-              </NavbarItem>
-            )
+            {
+              if (isDrpDown) {
+                return (
+                  <Dropdown key={index}>
+                    <NavbarItem>
+                      <DropdownTrigger>
+                        <Button
+                          disableRipple
+                          variant='flat' 
+                          className='bg-background text-foreground text-base font-light'
+                          endContent={<ChevronDown strokeWidth={0.75} />}
+                        >
+                          {text}
+                        </Button>
+                      </DropdownTrigger>
+                    </NavbarItem>
+                    <DropdownMenu>
+                      {
+                        DrpContent.map(({ desc, keyName, link }, index) => {
+                          return (
+                            <DropdownItem
+                              key={index}
+                              description={desc}
+                              onPress={() => Navigate(link)}
+                            >
+                              {keyName}
+                            </DropdownItem>
+                          )
+                        })
+                      }
+                    </DropdownMenu>
+                  </Dropdown>
+                )
+              }
+              return (
+                <NavbarItem key={link}>
+                  <NavLink to={link} color="foreground"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-base cursor-pointer text-primary font-light"
+                        : "text-base cursor-pointer font-light"
+                    }
+                  >
+                    {text}
+                  </NavLink>
+                </NavbarItem>
+              )
+            }
           })
         }
       </NavbarContent>
